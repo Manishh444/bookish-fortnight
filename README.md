@@ -1,11 +1,11 @@
 
 # Hackathon_X.O
 
-This repo contain backend source code for USer registration and authentication with JWT and allow them to participate in Hackathon_X.O.
+This repo contains backend source code for user registration and authentication with JWT and allows them to participate in Hackathon_X.O.
 
-User is allowed to participate in group or solo.
+The user is allowed to participate in a group or solo.
 
-User can submit project details.
+Users can submit project details.
 
 Tech stack used:
 
