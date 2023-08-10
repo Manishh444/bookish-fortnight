@@ -1,6 +1,8 @@
 const express = require("express");
 const cors =  require("cors")
 const dotenv = require("dotenv")
+const projectRoutes = require("./src/routes/projectRoutes"); // Path to your projectRoutes.js file
+const userRoutes = require("./src/routes/userRoutes"); // Path to your projectRoutes.js file
 
 
 
@@ -12,6 +14,8 @@ const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
+
+app.use('/projects', projectRoutes); // Mount the router under the '/projects' path
 
 // API route to create the users table
 app.post("/create-users-table", async (req, res) => {

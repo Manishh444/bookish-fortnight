@@ -68,6 +68,24 @@ const SignUp = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+//--------------------------single user only----------
+app.get('/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const getUserQuery = 'SELECT * FROM users WHERE id = $1';
+    const result = await pool.query(getUserQuery, [userId]);
+    
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'User not found' });
+    } else {
+      const user = result.rows[0];
+      res.json(user);
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 //---------------------------ViewAllUser-----------------------------
 const allUser = async (req, res) => {
@@ -90,5 +108,88 @@ const allUser = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+//==============combines single user and all user===================
+app.get("/users/:id?", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    let getUserQuery = "SELECT * FROM users";
 
+    if (userId) {
+      getUserQuery += `WHERE id = ${userId}`;
+    }
 
+    const result = await pool.query(getUserQuery, userId ? [userId] : []);
+
+    if (result.rows.length === 0) {
+      res
+        .status(404)
+        .json({ error: userId ? "User not found" : "No users found" });
+    } else {
+      const users = result.rows;
+      res.json(users);
+    }
+  } catch (error) {
+    console.error("Error fetching user(s):", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+// --------------------update user----------
+app.put("/updateUser/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { name, email, bio, city, state, country, password } = req.body;
+
+    const updateUserQuery = `
+      UPDATE users
+      SET name = $1, email = $2, bio = $3, city = $4, state = $5, country = $6, password = $7
+      WHERE id = $8
+      RETURNING *;
+    `;
+
+    const result = await pool.query(updateUserQuery, [
+      name,
+      email,
+      bio,
+      city,
+      state,
+      country,
+      password,
+      userId,
+    ]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: "User not found" });
+    } else {
+      const updatedUser = result.rows[0];
+      res.json(updatedUser);
+    }
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+//-----------------------delete user----------
+app.delete("/deleteUser/:id", async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const deleteUserQuery = `
+      DELETE FROM users
+      WHERE id = $1
+      RETURNING *;
+    `;
+
+    const result = await pool.query(deleteUserQuery, [userId]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: "User not found" });
+    } else {
+      const deletedUser = result.rows[0];
+      res.json(deletedUser);
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+module.exports = {login, allUser, SignUp}
