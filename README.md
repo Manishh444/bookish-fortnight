@@ -9,8 +9,8 @@ Users can submit project details.
 
 Tech stack used:
 
-NODEJS
-ExpressJS
-PostgreSQL(hosted on Render cloud services)
+## .NODEJS
+## .ExpressJS
+## .PostgreSQL(hosted on Render cloud services)
 
 
