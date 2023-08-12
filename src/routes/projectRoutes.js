@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("./db"); // Assuming you've named the PostgreSQL connection file as 'db.js'
+const pool = require("./dbConfig"); // Assuming you've named the PostgreSQL connection file as 'db.js'
 
 // Create a new project
 router.post("/", async (req, res) => {

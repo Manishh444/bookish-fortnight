@@ -1,67 +1,99 @@
 const generateToken = require('../config/generateToken');
 const bcrypt = require('bcryptjs')
+const pool = require('../config/dbConfig')
 
 //----------------------Login------------------------------------
 const login = async (req, res) => {
-  const { email, password } = req.body;
-  // need to write sql function to find email in user tabel and get it
-  const user = await User_table.find({ email });
-  //need to write matchpassword function and encrypt password functionality
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      token: generateToken(user.id),
-    });
-        console.log("login successful");
+  try {
+    const { Email, Password } = req.body;
 
-  } else {
-    res.status(401);
-    throw new Error("Invalid email or password");
+    if (!Email || !Password) {
+      res.status(400);
+      throw new Error("Please provide both email and password");
+    }
+
+    const getUserQuery = "SELECT * FROM users WHERE email = $1";
+    const userResult = await pool.query(getUserQuery, [Email]);
+
+    if (userResult.rows.length === 0) {
+      res.status(401);
+      throw new Error("Invalid credentials");
+    }
+
+    const user = userResult.rows[0];
+
+    const isPasswordValid = await bcrypt.compare(Password, user.password);
+    if (!isPasswordValid) {
+      res.status(401);
+      throw new Error("Invalid credentials");
+    }
+
+    const token = generateToken(user.userid);
+
+    res.json({
+      id: user.userid,
+      name: user.fullname,
+      email: user.email,
+      bio: user.bio,
+      token,
+    });
+  } catch (error) {
+    console.error("Error during login:", error);
+    res
+      .status(error.status || 500)
+      .json({ error: error.message || "Internal server error" });
   }
 };
 
+
 // --------------------------SignUp----------------------------------
 const SignUp = async (req, res) => {
+  console.log(req.body)
   try {
-    const { name, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    const { FullName, Email, Password, Bio, City, State, Country } = req.body;
+
+    if ((!FullName || !Email || !Password || !Bio || !City || !State|| !Country)) {
       res.status(400);
       throw new Error("Please complete the form");
     }
 
     const existingUserQuery = "SELECT * FROM users WHERE email = $1";
-    const existingUserResult = await pool.query(existingUserQuery, [email]);
+    const existingUserResult = await pool.query(existingUserQuery, [Email]);
 
     if (existingUserResult.rows.length > 0) {
       res.status(400);
       throw new Error("User already exists");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(Password, 10);
 
     const createUserQuery =
-      "INSERT INTO users (name, email, password, pic) VALUES ($1, $2, $3, $4) RETURNING id, name, email, pic";
+      "INSERT INTO users (Fullname, Email, Password, Bio, City, State, Country) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING userid, FullName, Email, Bio, City, State, Country";
 
     const createdUserResult = await pool.query(createUserQuery, [
-      name,
-      email,
+      FullName,
+      Email,
       hashedPassword,
-      pic,
+      Bio,
+      City,
+      State,
+      Country
     ]);
-
+    console.log("line 58 usercontroller signup function", createdUserResult)
     const createdUser = createdUserResult.rows[0];
-
-    const token = generateToken(createdUser.id);
+    console.log("line 62 user controller",createdUser)
+    const Token = generateToken(createdUser.userid);
 
     res.status(201).json({
-      id: createdUser.id,
-      name: createdUser.name,
-      email: createdUser.email,
-      pic: createdUser.pic,
-      token,
+      user_Id: createdUser.userid,
+      userName: createdUser.fullName,
+      Email: createdUser.email,
+      Bio: createdUser.bio,
+      City: createdUser.city,
+      State: createdUser.state,
+      Country:createdUser.country,
+      Token,
     });
   } catch (error) {
     console.error("Error registering user:", error);
@@ -69,23 +101,23 @@ const SignUp = async (req, res) => {
   }
 };
 //--------------------------single user only----------
-app.get('/users/:id', async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const getUserQuery = 'SELECT * FROM users WHERE id = $1';
-    const result = await pool.query(getUserQuery, [userId]);
+// app.get('/users/:id', async (req, res) => {
+//   try {
+//     const userId = req.params.id;
+//     const getUserQuery = 'SELECT * FROM users WHERE id = $1';
+//     const result = await pool.query(getUserQuery, [userId]);
     
-    if (result.rows.length === 0) {
-      res.status(404).json({ error: 'User not found' });
-    } else {
-      const user = result.rows[0];
-      res.json(user);
-    }
-  } catch (error) {
-    console.error('Error fetching user:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+//     if (result.rows.length === 0) {
+//       res.status(404).json({ error: 'User not found' });
+//     } else {
+//       const user = result.rows[0];
+//       res.json(user);
+//     }
+//   } catch (error) {
+//     console.error('Error fetching user:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
 
 //---------------------------ViewAllUser-----------------------------
 const allUser = async (req, res) => {
@@ -109,13 +141,13 @@ const allUser = async (req, res) => {
   }
 };
 //==============combines single user and all user===================
-app.get("/users/:id?", async (req, res) => {
+const allUsers= async (req, res) => {
   try {
     const userId = req.params.id;
     let getUserQuery = "SELECT * FROM users";
 
     if (userId) {
-      getUserQuery += `WHERE id = ${userId}`;
+      getUserQuery += `WHERE userid = ${userId}`;
     }
 
     const result = await pool.query(getUserQuery, userId ? [userId] : []);
@@ -132,29 +164,32 @@ app.get("/users/:id?", async (req, res) => {
     console.error("Error fetching user(s):", error);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+};
 // --------------------update user----------
-app.put("/updateUser/:id", async (req, res) => {
+const updateUser= async (req, res) => {
   try {
     const userId = req.params.id;
-    const { name, email, bio, city, state, country, password } = req.body;
+    console.log("line 172 usercontroller",userId)
+    const { fullname, email,  bio, city, state, country } = req.body;
 
     const updateUserQuery = `
       UPDATE users
-      SET name = $1, email = $2, bio = $3, city = $4, state = $5, country = $6, password = $7
-      WHERE id = $8
+      SET fullname = $1, email = $2, bio = $3, city = $4, state = $5, country = $6
+      WHERE userid = $7
       RETURNING *;
+       
+     
     `;
 
+
     const result = await pool.query(updateUserQuery, [
-      name,
+      fullname,
       email,
       bio,
       city,
       state,
       country,
-      password,
-      userId,
+      userId
     ]);
 
     if (result.rows.length === 0) {
@@ -167,15 +202,15 @@ app.put("/updateUser/:id", async (req, res) => {
     console.error("Error updating user:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-});
+};
 //-----------------------delete user----------
-app.delete("/deleteUser/:id", async (req, res) => {
+const deleteUser =  async (req, res) => {
   try {
     const userId = req.params.id;
 
     const deleteUserQuery = `
       DELETE FROM users
-      WHERE id = $1
+      WHERE userid = $1
       RETURNING *;
     `;
 
@@ -191,5 +226,5 @@ app.delete("/deleteUser/:id", async (req, res) => {
     console.error("Error deleting user:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-});
-module.exports = {login, allUser, SignUp}
+};
+module.exports = { login, allUsers, SignUp, updateUser, deleteUser };
