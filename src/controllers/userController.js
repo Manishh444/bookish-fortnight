@@ -1,6 +1,6 @@
-const generateToken = require('../config/generateToken');
-const bcrypt = require('bcryptjs')
-const pool = require('../config/dbConfig')
+const generateToken = require("../config/generateToken");
+const bcrypt = require("bcryptjs");
+const pool = require("../config/dbConfig");
 
 //----------------------Login------------------------------------
 const login = async (req, res) => {
@@ -45,15 +45,21 @@ const login = async (req, res) => {
   }
 };
 
-
 // --------------------------SignUp----------------------------------
 const SignUp = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
+    const { Full_Name, Email, Password, Bio, City, State, Country } = req.body;
 
-    const { FullName, Email, Password, Bio, City, State, Country } = req.body;
-
-    if ((!FullName || !Email || !Password || !Bio || !City || !State|| !Country)) {
+    if (
+      !Full_Name ||
+      !Email ||
+      !Password ||
+      !Bio ||
+      !City ||
+      !State ||
+      !Country
+    ) {
       res.status(400);
       throw new Error("Please complete the form");
     }
@@ -69,30 +75,30 @@ const SignUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(Password, 10);
 
     const createUserQuery =
-      "INSERT INTO users (Fullname, Email, Password, Bio, City, State, Country) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING userid, FullName, Email, Bio, City, State, Country";
+      "INSERT INTO users (Full_name, Email, Password, Bio, City, State, Country) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING user_id, Full_Name, Email, Bio, City, State, Country";
 
     const createdUserResult = await pool.query(createUserQuery, [
-      FullName,
+      Full_Name,
       Email,
       hashedPassword,
       Bio,
       City,
       State,
-      Country
+      Country,
     ]);
-    console.log("line 58 usercontroller signup function", createdUserResult)
+    console.log("line 58 usercontroller signup function", createdUserResult);
     const createdUser = createdUserResult.rows[0];
-    console.log("line 62 user controller",createdUser)
-    const Token = generateToken(createdUser.userid);
+    console.log("line 62 user controller", createdUser);
+    const Token = generateToken(createdUser.user_id);
 
     res.status(201).json({
-      user_Id: createdUser.userid,
-      userName: createdUser.fullName,
+      user_Id: createdUser.user_id,
+      userName: createdUser.full_Name,
       Email: createdUser.email,
       Bio: createdUser.bio,
       City: createdUser.city,
       State: createdUser.state,
-      Country:createdUser.country,
+      Country: createdUser.country,
       Token,
     });
   } catch (error) {
@@ -106,7 +112,7 @@ const SignUp = async (req, res) => {
 //     const userId = req.params.id;
 //     const getUserQuery = 'SELECT * FROM users WHERE id = $1';
 //     const result = await pool.query(getUserQuery, [userId]);
-    
+
 //     if (result.rows.length === 0) {
 //       res.status(404).json({ error: 'User not found' });
 //     } else {
@@ -141,21 +147,21 @@ const allUser = async (req, res) => {
   }
 };
 //==============combines single user and all user===================
-const allUsers= async (req, res) => {
+const allUsers = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const user_Id = req.params.id;
+    console.log(user_Id);
     let getUserQuery = "SELECT * FROM users";
-
-    if (userId) {
-      getUserQuery += `WHERE userid = ${userId}`;
-    }
-
-    const result = await pool.query(getUserQuery, userId ? [userId] : []);
+    let result;
+    if (user_Id) {
+      getUserQuery = `SELECT * FROM users WHERE user_id = $1`;
+      result = await pool.query( getUserQuery, [user_Id]);
+    }else{result = await pool.query(getUserQuery, []);}
 
     if (result.rows.length === 0) {
       res
         .status(404)
-        .json({ error: userId ? "User not found" : "No users found" });
+        .json({ error: user_Id ? "User not found" : "No users found" });
     } else {
       const users = result.rows;
       res.json(users);
@@ -166,11 +172,11 @@ const allUsers= async (req, res) => {
   }
 };
 // --------------------update user----------
-const updateUser= async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    console.log("line 172 usercontroller",userId)
-    const { fullname, email,  bio, city, state, country } = req.body;
+    console.log("line 172 usercontroller", userId);
+    const { fullname, email, bio, city, state, country } = req.body;
 
     const updateUserQuery = `
       UPDATE users
@@ -181,7 +187,6 @@ const updateUser= async (req, res) => {
      
     `;
 
-
     const result = await pool.query(updateUserQuery, [
       fullname,
       email,
@@ -189,7 +194,7 @@ const updateUser= async (req, res) => {
       city,
       state,
       country,
-      userId
+      userId,
     ]);
 
     if (result.rows.length === 0) {
@@ -204,7 +209,7 @@ const updateUser= async (req, res) => {
   }
 };
 //-----------------------delete user----------
-const deleteUser =  async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
 
