@@ -31,8 +31,8 @@ const login = async (req, res) => {
     const token = generateToken(user.userid);
 
     res.json({
-      id: user.userid,
-      name: user.fullname,
+      id: user.user_id,
+      name: user.full_name,
       email: user.email,
       bio: user.bio,
       token,
@@ -106,46 +106,7 @@ const SignUp = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-//--------------------------single user only----------
-// app.get('/users/:id', async (req, res) => {
-//   try {
-//     const userId = req.params.id;
-//     const getUserQuery = 'SELECT * FROM users WHERE id = $1';
-//     const result = await pool.query(getUserQuery, [userId]);
 
-//     if (result.rows.length === 0) {
-//       res.status(404).json({ error: 'User not found' });
-//     } else {
-//       const user = result.rows[0];
-//       res.json(user);
-//     }
-//   } catch (error) {
-//     console.error('Error fetching user:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-//---------------------------ViewAllUser-----------------------------
-const allUser = async (req, res) => {
-  try {
-    const searchQuery = req.query.search;
-    const userId = req.query.userId;
-
-    let query = `
-      SELECT * FROM users
-      WHERE
-        (LOWER(name) LIKE '%' || LOWER($1) || '%' OR LOWER(email) LIKE '%' || LOWER($1) || '%')
-        AND _id != $2;
-    `;
-
-    const { rows } = await pool.query(query, [searchQuery, userId]);
-
-    res.json(rows);
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
 //==============combines single user and all user===================
 const allUsers = async (req, res) => {
   try {
@@ -174,27 +135,27 @@ const allUsers = async (req, res) => {
 // --------------------update user----------
 const updateUser = async (req, res) => {
   try {
-    const userId = req.params.id;
-    console.log("line 172 usercontroller", userId);
-    const { fullname, email, bio, city, state, country } = req.body;
+    const user_Id = req.params.id;
+    console.log("line 172 usercontroller", user_Id);
+    const { full_name, email, bio, city, state, country } = req.body;
 
     const updateUserQuery = `
       UPDATE users
-      SET fullname = $1, email = $2, bio = $3, city = $4, state = $5, country = $6
-      WHERE userid = $7
+      SET full_name = $1, email = $2, bio = $3, city = $4, state = $5, country = $6
+      WHERE user_id = $7
       RETURNING *;
        
      
     `;
 
     const result = await pool.query(updateUserQuery, [
-      fullname,
+      full_name,
       email,
       bio,
       city,
       state,
       country,
-      userId,
+      user_Id,
     ]);
 
     if (result.rows.length === 0) {
@@ -211,15 +172,15 @@ const updateUser = async (req, res) => {
 //-----------------------delete user----------
 const deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const user_Id = req.params.id;
 
     const deleteUserQuery = `
       DELETE FROM users
-      WHERE userid = $1
+      WHERE user_id = $1
       RETURNING *;
     `;
 
-    const result = await pool.query(deleteUserQuery, [userId]);
+    const result = await pool.query(deleteUserQuery, [user_Id]);
 
     if (result.rows.length === 0) {
       res.status(404).json({ error: "User not found" });
