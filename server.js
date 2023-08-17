@@ -8,6 +8,7 @@ const userRoutes = require("./src/routes/userRoutes"); // Path to your projectRo
 // const userModel_Routes = require("./src/models/userModel_Routes");
 // const projectModel_Routes = require("./src/models/projectModel_Routes");
 // const userProjectModel_Routes = require("./src/models/userProjectModel_Routes");
+// const individual_projectsRoutes = require('./src/routes/groupProjectRoutes')
 
 
 //const pool = require('./src/config/dbConfig')//
@@ -23,6 +24,7 @@ app.use(express.json());
 // app.use("/api/projectModel", projectModel_Routes);
 // app.use('/api/projects', projectRoutes); // Mount the router under the '/projects' path
 app.use('/api/user', userRoutes); // Mount the router under the '/projects' path
+// app.use("/api/individualProject", individual_projectsRoutes); // Mount the router under the '/projects' path
 
 
 app.listen(port, () => {
