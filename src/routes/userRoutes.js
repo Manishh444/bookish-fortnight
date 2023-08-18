@@ -10,7 +10,7 @@ const {
   deleteUser,
 } = require("../controllers/userController");
 
-router.route('/').get().post(SignUp);
+router.route('/').post(SignUp);
 router.route('/login').post(login)
 router.route(`/users/:id?`).get(allUsers);
 router.route("/updateUser/:id").put(updateUser);
