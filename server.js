@@ -10,10 +10,8 @@ const groupProjectRoutes = require("./src/routes/groupRoutes");
 const app = express();
 const port = process.env.PORT;
 
-
 app.use(cors());
 app.use(express.json());
-
 
 app.use('/api/user', userRoutes); // Mount the router under the '/projects' path
 app.use("/api/individual_Project", individual_projectsRoutes);

@@ -47,5 +47,90 @@ async function createGroup(req, res) {
     res.status(500).json({ error: "An error occurred" });
   }
 }
+// --------------------------------------------------
 
-module.exports = { createGroup };
+// Update a project
+const updateProject = async (req, res) => {
+  try {
+    const { project_title, description, links, technical_stacks} =
+      req.body;
+    const { project_id } = req.params;
+    console.log(project_id);
+    const query = `UPDATE group_projects
+                   SET project_title = $1, description = $2, links = $3, technical_stacks = $4
+                   WHERE group_project_id = $5 RETURNING *`;
+    const values = [
+      project_title,
+      description,
+      links,
+      technical_stacks,
+      project_id,
+    ];
+    const result = await pool.query(query, values);
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the project." });
+  }
+};
+
+// Delete a project
+const deleteProject = async (req, res) => {
+  try {
+    const { project_id } = req.params;
+    const query =
+      "DELETE FROM group_projects WHERE group_project_id = $1 RETURNING *";
+    const values = [project_id];
+    const result = await pool.query(query, values);
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: `This Group project is have active members working on it, kindly first remove all the members` });
+  }
+};
+
+// View all projects
+const getAllProjects = async (req, res) => {
+  try {
+    const query = "SELECT * FROM group_projects";
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching projects." });
+  }
+};
+
+// View projects by matching project name (including single character matches)
+const getProjectsByPartialName = async (req, res) => {
+  try {
+    const { project_name } = req.query;
+    const query = "SELECT * FROM group_projects WHERE project_title ILIKE ($1)";
+    const values = [`%${project_name}%`];
+    console.log('line 116 creategroup controller',values)
+    const result = await pool.query(query, values);
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: "No projects found." });
+    } else {
+      res.json(result.rows);
+    }
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching the projects." });
+  }
+};
+module.exports = {
+  createGroup,
+  updateProject,
+  deleteProject,
+  getAllProjects,
+  getProjectsByPartialName
+};

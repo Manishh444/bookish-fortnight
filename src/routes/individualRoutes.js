@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const { protect } = require("../middleware/authmiddleware");
+
 const {
   createProject,
   updateProject,
@@ -10,7 +12,7 @@ const {
 
 router.route("/").post(createProject).get(getAllProjects);
 router.get("/getProjectById/:project_id", getProjectById);
-router.put("/updateProject/:project_id", updateProject);
-router.delete("/deleteProject/:project_id", deleteProject);
+router.put("/updateProject/:project_id", protect, updateProject);
+router.delete("/deleteProject/:project_id", protect, deleteProject);
 
 module.exports = router;

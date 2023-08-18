@@ -1,17 +1,18 @@
 const express = require("express");
 const router = express.Router();
 // const {createGroup} = require("./cre");
-const { createGroup } = require("../controllers/groupProjectController");
+const {
+  createGroup,
+  updateProject,
+  deleteProject,
+  getAllProjects,
+  getProjectsByPartialName
+} = require("../controllers/groupProjectController");
+const { protect } = require("../middleware/authmiddleware");
 
-router.route("/").post(createGroup);
-// router.put("/projects/:project_id", projectController.updateProject);
-// router.delete("/projects/:project_id", projectController.deleteProject);
-// router.get("/projects", projectController.getAllProjects);
-// router.get("/projects/:project_id", projectController.getProjectById);
-
-// router.route("/").post(createProject).get(getAllProjects);
-// router.get("/getProjectById/:project_id", getProjectById);
-// router.put("/updateProject/:project_id", updateProject);
-// router.delete("/deleteProject/:project_id", deleteProject);
+router.route("/").post(createGroup).get(getAllProjects);;
+router.get("/getProjectbyName", getProjectsByPartialName);
+router.put("/updateProject/:project_id", protect, updateProject);
+router.delete("/deleteProject/:project_id", protect, deleteProject);
 
 module.exports = router;

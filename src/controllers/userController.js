@@ -21,14 +21,14 @@ const login = async (req, res) => {
     }
 
     const user = userResult.rows[0];
-
+    console.log("line 24 usercontroller",user)
     const isPasswordValid = await bcrypt.compare(Password, user.password);
     if (!isPasswordValid) {
       res.status(401);
       throw new Error("Invalid credentials");
     }
 
-    const token = generateToken(user.userid);
+    const token = generateToken(user.user_id);
 
     res.json({
       id: user.user_id,
@@ -88,7 +88,6 @@ const SignUp = async (req, res) => {
     ]);
     console.log("line 58 usercontroller signup function", createdUserResult);
     const createdUser = createdUserResult.rows[0];
-    console.log("line 62 user controller", createdUser);
     const Token = generateToken(createdUser.user_id);
 
     res.status(201).json({
@@ -143,10 +142,7 @@ const updateUser = async (req, res) => {
       UPDATE users
       SET full_name = $1, email = $2, bio = $3, city = $4, state = $5, country = $6
       WHERE user_id = $7
-      RETURNING *;
-       
-     
-    `;
+      RETURNING * `
 
     const result = await pool.query(updateUserQuery, [
       full_name,

@@ -13,7 +13,7 @@ const createProject = async (req, res) => {
       links,
       technical_stacks,
       user_id,
-    ];
+    ]; 
     const result = await pool.query(query, values);
     res.json(result.rows[0]);
   } catch (error) {
