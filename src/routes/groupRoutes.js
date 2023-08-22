@@ -10,7 +10,7 @@ const {
 } = require("../controllers/groupProjectController");
 const { protect } = require("../middleware/authmiddleware");
 
-router.route("/").post(createGroup).get(getAllProjects);;
+router.route("/").post(protect, createGroup).get(getAllProjects);;
 router.get("/getProjectbyName", getProjectsByPartialName);
 router.put("/updateProject/:project_id", protect, updateProject);
 router.delete("/deleteProject/:project_id", protect, deleteProject);

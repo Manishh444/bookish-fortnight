@@ -1,6 +1,16 @@
 const pool = require("../config/dbConfig");
 
 // Create a new project
+async function userParticipatingInGroupProject(userId) {
+  //   const checkUserQuery = "SELECT * FROM user_group_project WHERE user_id = $1";
+  const checkUserQuery = `SELECT users.*, user_group_project.group_project_id
+    FROM users
+    RIGHT JOIN user_group_project ON users.user_id = user_group_project.user_id
+    WHERE users.user_id = $1;`;
+  const result = await pool.query(checkUserQuery, [userId]);
+  // return result.rows[0];
+  return result.rows.length > 0 ? result.rows[0] : null;
+}
 const createProject = async (req, res) => {
   try {
     const { project_title, description, links, technical_stacks, user_id } =
@@ -14,6 +24,14 @@ const createProject = async (req, res) => {
       technical_stacks,
       user_id,
     ]; 
+
+    const userExists = await userParticipatingInGroupProject(user_id);
+    if (userExists) {
+      res.json({
+        message: "user is already registered in group project",
+        userExists: userExists,
+      });
+    }
     const result = await pool.query(query, values);
     res.json(result.rows[0]);
   } catch (error) {
