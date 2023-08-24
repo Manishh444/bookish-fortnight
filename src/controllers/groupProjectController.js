@@ -47,10 +47,42 @@ async function createeGroup(req, res) {
     res.status(500).json({ error: "An error occurred" });
   }
 }
+//-----------------------------------------------
+
+
+
 // --------------------------------------------------
 
 
+const getProjectbyTeckStack = async (req, res) => {
+  const techStack = req.params.techStack;
 
+  try {
+    const query = `
+      SELECT project_id, project_title, description, links, technical_stacks, project_type
+      FROM individual_projects
+      WHERE $1 = ANY (technical_stacks)
+
+      UNION
+
+      SELECT group_project_id AS project_id, project_title, description, links, technical_stacks, project_type
+      FROM group_projects
+      WHERE $1 = ANY (technical_stacks);
+    `;
+
+    const { rows } = await pool.query(query, [techStack]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching projects." });
+  }
+};
+
+
+//======================================================
 async function userExistsInIndividualProjects(userId) {
   const checkUserQuery = "SELECT * FROM individual_projects WHERE user_id = $1";
   const result = await pool.query(checkUserQuery, [userId]);
@@ -233,5 +265,6 @@ module.exports = {
   updateProject,
   deleteProject,
   getAllProjects,
-  getProjectsByPartialName
+  getProjectsByPartialName,
+  getProjectbyTeckStack
 };

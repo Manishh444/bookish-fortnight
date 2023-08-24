@@ -6,7 +6,8 @@ const {
   updateProject,
   deleteProject,
   getAllProjects,
-  getProjectsByPartialName
+  getProjectsByPartialName,
+  getProjectbyTeckStack
 } = require("../controllers/groupProjectController");
 const { protect } = require("../middleware/authmiddleware");
 
@@ -14,5 +15,6 @@ router.route("/").post(protect, createGroup).get(getAllProjects);;
 router.get("/getProjectbyName", getProjectsByPartialName);
 router.put("/updateProject/:project_id", protect, updateProject);
 router.delete("/deleteProject/:project_id", protect, deleteProject);
+router.get("/projects/:techStack", getProjectbyTeckStack);
 
 module.exports = router;

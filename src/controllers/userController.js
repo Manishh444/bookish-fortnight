@@ -1,7 +1,32 @@
 const generateToken = require("../config/generateToken");
 const bcrypt = require("bcryptjs");
 const pool = require("../config/dbConfig");
+//----------------------getuserby techstack--------
+const getUserbyTechStack= async (req, res) => {
+  const techStack = req.params.techStack;
+  console.log("line 7 userController", techStack)
 
+  try {
+    const query = `
+      SELECT DISTINCT u.user_id, u.fullname, u.email, u.bio, u.city, u.state, u.country
+      FROM users u
+      LEFT JOIN (
+        SELECT DISTINCT ug.user_id, gp.technical_stacks
+        FROM user_group_project ug
+        INNER JOIN group_projects gp ON ug.group_project_id = gp.group_project_id
+      ) gp_subquery ON u.user_id = gp_subquery.user_id
+      LEFT JOIN individual_projects ip ON u.user_id = ip.user_id
+      WHERE $1 = ANY (ip.technical_stacks) OR $1 = ANY (gp_subquery.technical_stacks);
+    `;
+
+    const { rows } = await pool.query(query, [techStack]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "An error occurred while fetching users." });
+  }
+};
 //----------------------Login------------------------------------
 const login = async (req, res) => {
   try {
@@ -189,4 +214,11 @@ const deleteUser = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-module.exports = { login, allUsers, SignUp, updateUser, deleteUser };
+module.exports = {
+  login,
+  allUsers,
+  SignUp,
+  updateUser,
+  deleteUser,
+  getUserbyTechStack,
+};
