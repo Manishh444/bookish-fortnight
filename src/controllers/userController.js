@@ -1,14 +1,13 @@
 const generateToken = require("../config/generateToken");
 const bcrypt = require("bcryptjs");
 const pool = require("../config/dbConfig");
+const { types } = require("pg");
 //----------------------getuserby techstack--------
 const getUserbyTechStack= async (req, res) => {
   const techStack = req.params.techStack;
-  console.log("line 7 userController", techStack)
-
-  try {
+   try {
     const query = `
-      SELECT DISTINCT u.user_id, u.fullname, u.email, u.bio, u.city, u.state, u.country
+      SELECT DISTINCT u.user_id, u.full_name, u.email, u.bio, u.city, u.state, u.country
       FROM users u
       LEFT JOIN (
         SELECT DISTINCT ug.user_id, gp.technical_stacks
@@ -20,6 +19,7 @@ const getUserbyTechStack= async (req, res) => {
     `;
 
     const { rows } = await pool.query(query, [techStack]);
+    // const { rows } = await pool.query(query, [`${techStack}`]);
 
     res.json(rows);
   } catch (error) {
@@ -27,6 +27,7 @@ const getUserbyTechStack= async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching users." });
   }
 };
+
 //----------------------Login------------------------------------
 const login = async (req, res) => {
   try {
