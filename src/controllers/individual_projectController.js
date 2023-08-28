@@ -15,25 +15,59 @@ const createProject = async (req, res) => {
   try {
     const { project_title, description, links, technical_stacks, user_id } =
       req.body;
-    const query = `INSERT INTO individual_projects (project_title, description, links, technical_stacks, user_id)
-                   VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-    const values = [
-      project_title,
-      description,
-      links,
-      technical_stacks,
-      user_id,
-    ]; 
 
+    // Check if the individual_projects table exists
+    const tableCheckQuery = `
+      SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.tables
+        WHERE table_name = 'individual_projects'
+      ) as table_exists;
+    `;
+
+    const tableCheckResult = await pool.query(tableCheckQuery);
+    const tableExists = tableCheckResult.rows[0].table_exists;
+
+    // If the table doesn't exist, create it
+    if (!tableExists) {
+      const createTableQuery = `
+        CREATE TABLE individual_projects (
+          id SERIAL PRIMARY KEY,
+          project_title TEXT,
+          description TEXT,
+          links TEXT,
+          technical_stacks TEXT,
+          user_id INT
+        );
+      `;
+      await pool.query(createTableQuery);
+    }
+
+    // Check if the user is already registered in a group project (your existing check)
     const userExists = await userParticipatingInGroupProject(user_id);
     if (userExists) {
       res.json({
-        message: "user is already registered in group project",
+        message: "User is already registered in a group project",
         userExists: userExists,
       });
+    } else {
+      // Proceed with the insert operation
+      const insertQuery = `
+        INSERT INTO individual_projects (project_title, description, links, technical_stacks, user_id)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *;
+      `;
+      const values = [
+        project_title,
+        description,
+        links,
+        technical_stacks,
+        user_id,
+      ];
+
+      const result = await pool.query(insertQuery, values);
+      res.json(result.rows[0]);
     }
-    const result = await pool.query(query, values);
-    res.json(result.rows[0]);
   } catch (error) {
     console.error(error);
     res
