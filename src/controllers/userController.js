@@ -73,7 +73,6 @@ const login = async (req, res) => {
 
 // --------------------------SignUp----------------------------------
 const SignUp = async (req, res) => {
-  console.log(req.body);
   try {
     const { Full_Name, Email, Password, Bio, City, State, Country } = req.body;
 
@@ -89,7 +88,7 @@ const SignUp = async (req, res) => {
       res.status(400);
       throw new Error("Please complete the form");
     }
-    // Check if the individual_projects table exists
+    // Check if the users table exists
     const tableCheckQuery = `
       SELECT EXISTS (
         SELECT 1
@@ -118,13 +117,14 @@ const SignUp = async (req, res) => {
       `;
       await pool.query(createTableQuery);
     }
-
+    // check if user is already registered 
     const existingUserQuery = "SELECT * FROM users WHERE email = $1";
     const existingUserResult = await pool.query(existingUserQuery, [Email]);
 
     if (existingUserResult.rows.length > 0) {
-      res.status(400);
-      throw new Error("User already exists");
+     res.status(400).json("User already exists");
+     return;
+      // throw new Error("User already exists");
     }
 
     const hashedPassword = await bcrypt.hash(Password, 10);
@@ -141,7 +141,7 @@ const SignUp = async (req, res) => {
       State,
       Country,
     ]);
-    console.log("line 58 usercontroller signup function", createdUserResult);
+    // console.log("line 58 usercontroller signup function", createdUserResult);
     const createdUser = createdUserResult.rows[0];
     const Token = generateToken(createdUser.user_id);
 
