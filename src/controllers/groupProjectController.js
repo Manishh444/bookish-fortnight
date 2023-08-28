@@ -82,7 +82,7 @@ const getProjectbyTeckStack = async (req, res) => {
 };
 
 
-//======================================================
+//======================create new group project================================
 async function userExistsInIndividualProjects(userId) {
   const checkUserQuery = "SELECT * FROM individual_projects WHERE user_id = $1";
   const result = await pool.query(checkUserQuery, [userId]);
@@ -104,6 +104,33 @@ async function createGroup(req, res) {
   try {
     const { project_title, description, links, technical_stacks, users } =
       req.body;
+
+    // Check if the group_project table exists
+    const tableCheckQuery = `
+      SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.tables
+        WHERE table_name = 'group_projects'
+      ) as table_exists;
+    `;
+
+    const tableCheckResult = await pool.query(tableCheckQuery);
+    const tableExists = tableCheckResult.rows[0].table_exists;
+
+    // If the table doesn't exist, create it
+    if (!tableExists) {
+      const createTableQuery = `
+       CREATE TABLE group_projects (
+          group_project_id SERIAL PRIMARY KEY,
+          project_title VARCHAR(255) NOT null unique,
+          description TEXT,
+          links JSONB,
+          technical_stacks TEXT[],
+          project_type VARCHAR(20) NOT NULL DEFAULT 'group'
+        );
+      `;
+      await pool.query(createTableQuery);
+    }
 
     // Insert into group_projects table
     const createGroupProjectQuery =
@@ -178,7 +205,6 @@ async function createGroup(req, res) {
   }
 }
 
-// module.exports = { createGroup };
 
 //-----------------------------------------------
 

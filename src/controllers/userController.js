@@ -3,9 +3,9 @@ const bcrypt = require("bcryptjs");
 const pool = require("../config/dbConfig");
 const { types } = require("pg");
 //----------------------getuserby techstack--------
-const getUserbyTechStack= async (req, res) => {
+const getUserbyTechStack = async (req, res) => {
   const techStack = req.params.techStack;
-   try {
+  try {
     const query = `
       SELECT DISTINCT u.user_id, u.full_name, u.email, u.bio, u.city, u.state, u.country
       FROM users u
@@ -47,7 +47,7 @@ const login = async (req, res) => {
     }
 
     const user = userResult.rows[0];
-    console.log("line 24 usercontroller",user)
+    console.log("line 24 usercontroller", user);
     const isPasswordValid = await bcrypt.compare(Password, user.password);
     if (!isPasswordValid) {
       res.status(401);
@@ -88,6 +88,35 @@ const SignUp = async (req, res) => {
     ) {
       res.status(400);
       throw new Error("Please complete the form");
+    }
+    // Check if the individual_projects table exists
+    const tableCheckQuery = `
+      SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.tables
+        WHERE table_name = 'users'
+      ) as table_exists;
+    `;
+
+    const tableCheckResult = await pool.query(tableCheckQuery);
+    const tableExists = tableCheckResult.rows[0].table_exists;
+
+    // If the table doesn't exist, create it
+    if (!tableExists) {
+      const createTableQuery = `
+       CREATE TABLE users (
+          user_id SERIAL PRIMARY KEY,
+          full_name VARCHAR(255) NOT NULL,
+          email VARCHAR(100) NOT NULL UNIQUE,
+          password VARCHAR(255) NOT NULL,
+          bio TEXT,
+          city VARCHAR(100),
+          state VARCHAR(100),
+          country VARCHAR(100),
+          created_at TIMESTAMP DEFAULT NOW()
+        );
+      `;
+      await pool.query(createTableQuery);
     }
 
     const existingUserQuery = "SELECT * FROM users WHERE email = $1";
@@ -141,8 +170,10 @@ const allUsers = async (req, res) => {
     let result;
     if (user_Id) {
       getUserQuery = `SELECT * FROM users WHERE user_id = $1`;
-      result = await pool.query( getUserQuery, [user_Id]);
-    }else{result = await pool.query(getUserQuery, []);}
+      result = await pool.query(getUserQuery, [user_Id]);
+    } else {
+      result = await pool.query(getUserQuery, []);
+    }
 
     if (result.rows.length === 0) {
       res
@@ -168,7 +199,7 @@ const updateUser = async (req, res) => {
       UPDATE users
       SET full_name = $1, email = $2, bio = $3, city = $4, state = $5, country = $6
       WHERE user_id = $7
-      RETURNING * `
+      RETURNING * `;
 
     const result = await pool.query(updateUserQuery, [
       full_name,

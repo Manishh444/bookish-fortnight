@@ -32,12 +32,13 @@ const createProject = async (req, res) => {
     if (!tableExists) {
       const createTableQuery = `
         CREATE TABLE individual_projects (
-          id SERIAL PRIMARY KEY,
-          project_title TEXT,
+          project_id SERIAL PRIMARY KEY,
+          project_title VARCHAR(255) NOT null unique,
           description TEXT,
-          links TEXT,
-          technical_stacks TEXT,
-          user_id INT
+          links JSONB, -- Store links as JSON data
+          technical_stacks TEXT[],
+          user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+          project_type VARCHAR(20) NOT NULL DEFAULT 'individual'
         );
       `;
       await pool.query(createTableQuery);
