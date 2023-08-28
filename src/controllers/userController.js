@@ -135,7 +135,7 @@ const SignUp = async (req, res) => {
 //==============combines single user and all user===================
 const allUsers = async (req, res) => {
   try {
-    const user_Id = req.params.id;
+    const user_Id = req.params.user_id;
     console.log(user_Id);
     let getUserQuery = "SELECT * FROM users";
     let result;
@@ -160,7 +160,7 @@ const allUsers = async (req, res) => {
 // --------------------update user----------
 const updateUser = async (req, res) => {
   try {
-    const user_Id = req.params.id;
+    const user_Id = req.params.user_id;
     console.log("line 172 usercontroller", user_Id);
     const { full_name, email, bio, city, state, country } = req.body;
 
@@ -194,7 +194,7 @@ const updateUser = async (req, res) => {
 //-----------------------delete user----------
 const deleteUser = async (req, res) => {
   try {
-    const user_Id = req.params.id;
+    const user_Id = req.params.user_id;
 
     const deleteUserQuery = `
       DELETE FROM users

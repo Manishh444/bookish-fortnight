@@ -13,8 +13,8 @@ const {
 
 router.route('/').post(SignUp);
 router.route('/login').post(login)
-router.route(`/users/:id?`).get(allUsers);
-router.route("/updateUser/:id").put(protect, updateUser);
-router.route("/deleteUser/:id").put(protect, deleteUser);
-router.get("/:techStack", getUserbyTechStack);
+router.route(`/viewusers/:user_id?`).get(allUsers);
+router.route("/updateUser/:user_id").put(protect, updateUser);
+router.route("/deleteUser/:user_id").put(protect, deleteUser);
+router.get("/getUserbyTechStack/:techStack", getUserbyTechStack);
 module.exports = router;
