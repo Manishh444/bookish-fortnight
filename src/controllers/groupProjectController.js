@@ -19,7 +19,6 @@ async function userExistsInGroupProjects(userId) {
     RIGHT JOIN user_group_project ON users.user_id = user_group_project.user_id
     WHERE users.user_id = $1;`;
     const result = await pool.query(checkUserQuery, [userId]);
-    console.log("line105", result.rows[0]);
     return result.rows.length > 0 ? result.rows[0] : null;
   } catch (error) {}
 }
@@ -28,7 +27,16 @@ async function createGroup(req, res) {
   try {
     const { project_title, description, links, technical_stacks, users } =
       req.body;
-
+    if (users.length < 3) {
+      res.json("Please add atleast 3 member to create a group");
+      return;
+    }
+    if (users.length > 5) {
+      res.json(
+        "Group Limit exceeded: can not add more than 5 members per group"
+      );
+      return;
+    }
     // Check if the group_project table exists
     const tableCheckQuery = `
       SELECT EXISTS (
@@ -73,9 +81,9 @@ async function createGroup(req, res) {
       technical_stacks,
     ];
 
-    const usersInIndividualProjects = [];
-    const usersInGrouprojects = [];
-    const addUsertoGroup = [];
+    const usersInIndividualProjects = []; // contains of users who are already part of some individual project
+    const usersInGrouprojects = []; // contains of users who are already part of some group project
+    const addUsertoGroup = []; //  contain userID of users who are eligible to create group project
 
     for (const userId of users) {
       const userExists = await userExistsInIndividualProjects(userId);
@@ -99,12 +107,13 @@ async function createGroup(req, res) {
       });
     }
     if (usersInGrouprojects.length > 0) {
+      // Return details of users found in group_project
       res.status(200).json({
         message: "Users found in group projects",
         usersInGroupProjects: usersInGrouprojects,
       });
     } else {
-      // Insert users into group if they do not exist in individual_projects
+      // Insert users into group if they do not exist in individual_projects||group_projects
       const groupProjectResult = await pool.query(
         createGroupProjectQuery,
         groupProjectValues
@@ -136,14 +145,12 @@ async function createGroup(req, res) {
   }
 }
 
-//-----------------------------------------------
 
 // -----------------------Update project----------------------------------
 const updateProject = async (req, res) => {
   try {
     const { project_title, description, links, technical_stacks } = req.body;
     const { project_id } = req.params;
-    console.log(project_id);
     const query = `UPDATE group_projects
                    SET project_title = $1, description = $2, links = $3, technical_stacks = $4
                    WHERE group_project_id = $5 RETURNING *`;
@@ -201,7 +208,6 @@ const getProjectsByPartialName = async (req, res) => {
     const { project_name } = req.query;
     const query = "SELECT * FROM group_projects WHERE project_title ILIKE ($1)";
     const values = [`%${project_name}%`];
-    console.log("line 116 creategroup controller", values);
     const result = await pool.query(query, values);
     if (result.rows.length === 0) {
       res.status(404).json({ error: "No projects found." });

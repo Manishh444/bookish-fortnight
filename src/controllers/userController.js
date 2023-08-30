@@ -47,7 +47,6 @@ const login = async (req, res) => {
     }
 
     const user = userResult.rows[0];
-    console.log("line 24 usercontroller", user);
     const isPasswordValid = await bcrypt.compare(Password, user.password);
     if (!isPasswordValid) {
       res.status(401);
@@ -141,7 +140,6 @@ const SignUp = async (req, res) => {
       State,
       Country,
     ]);
-    // console.log("line 58 usercontroller signup function", createdUserResult);
     const createdUser = createdUserResult.rows[0];
     const Token = generateToken(createdUser.user_id);
 
@@ -165,7 +163,6 @@ const SignUp = async (req, res) => {
 const allUsers = async (req, res) => {
   try {
     const user_Id = req.params.user_id;
-    console.log(user_Id);
     let getUserQuery = "SELECT * FROM users";
     let result;
     if (user_Id) {
@@ -192,7 +189,6 @@ const allUsers = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const user_Id = req.params.user_id;
-    console.log("line 172 usercontroller", user_Id);
     const { full_name, email, bio, city, state, country } = req.body;
 
     const updateUserQuery = `

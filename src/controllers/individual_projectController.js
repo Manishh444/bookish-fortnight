@@ -10,7 +10,7 @@ async function userParticipatingInGroupProject(userId) {
     const result = await pool.query(checkUserQuery, [userId]);
     return result.rows.length > 0 ? result.rows[0] : null;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 }
 const createProject = async (req, res) => {
@@ -72,7 +72,7 @@ const createProject = async (req, res) => {
       res.json(result.rows[0]);
     }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res
       .status(500)
       .json({ error: "An error occurred while creating the project." });
@@ -85,7 +85,6 @@ const updateProject = async (req, res) => {
     const { project_title, description, links, technical_stacks, user_id } =
       req.body;
     const { project_id } = req.params;
-    console.log(project_id);
     const query = `UPDATE individual_projects
                    SET project_title = $1, description = $2, links = $3, technical_stacks = $4, user_id = $5
                    WHERE project_id = $6 RETURNING *`;
