@@ -2,9 +2,9 @@ Instructions on how to run this project:
 
 ---
 
-# Project Name
+# bookish-fortnight
 
-Welcome to the Project Name! This project allows users to register, submit projects, and participate in both group and individual projects using JWT authentication and RESTful endpoints built with Express.js and PostgreSQL.
+Welcome to the **bookish-fortnight**! This project allows users to register, submit projects, and participate in both group and individual projects using JWT authentication and RESTful endpoints built with Express.js and PostgreSQL.
 
 ## Table of Contents
 
