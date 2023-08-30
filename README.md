@@ -1,4 +1,4 @@
-Certainly! Here's a template for a README file that provides instructions on how to run your project:
+Instructions on how to run this project:
 
 ---
 
