@@ -1,0 +1,1664 @@
+{
+	"info": {
+		"_postman_id": "389968af-a3b0-45bd-91bc-e2b5af465e87",
+		"name": "PROJECT X.O",
+		"description": "## Introduction\n\nWelcome to the Project API documentation. This API allows users to register, submit projects, and participate in both group and individual projects.\n\n**Authentication**: JWT (JSON Web Token)\n\n## Authentication\n\nTo access most endpoints in this API, you must authenticate using JWT (JSON Web Token). To authenticate, include the token in the `Authorization` header of your request:  \n  \nAuthorization: Bearer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28934281",
+		"_collection_link": "https://solar-zodiac-165283.postman.co/workspace/7bafc79b-8a1d-43a1-8f44-37221e60f25d/collection/28934281-389968af-a3b0-45bd-91bc-e2b5af465e87?action=share&source=collection_link&creator=28934281"
+	},
+	"item": [
+		{
+			"name": "user API",
+			"item": [
+				{
+					"name": "Signup_user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n    \"Full_Name\": \"sampleUser_01\",\r\n    \"Email\":\"sampleuser_01@gmail.com\",\r\n    \"Password\":\"123456\",\r\n    \"Bio\":\"sample user bio\",\r\n    \"City\":\"sample city\",\r\n    \"State\":\"sample state\",\r\n    \"Country\":\"sample country\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						},
+						"description": "#### Create User (With Authentication)\n\n- **Endpoint:** `POST /api/users`\n    \n- **Description:** Creates a new user with the provided information.\n    \n- **Authentication:** Returns authentication token along with user details.\n    \n- **Request Body:** JSON object containing user details."
+					},
+					"response": [
+						{
+							"name": "Signup_user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n    \"Full_Name\": \"sampleUser_01\",\r\n    \"Email\":\"sampleuser_01@gmail.com\",\r\n    \"Password\":\"123456\",\r\n    \"Bio\":\"sample user bio\",\r\n    \"City\":\"sample city\",\r\n    \"State\":\"sample state\",\r\n    \"Country\":\"sample country\"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/user/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "293"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"125-dJn392GXM/GVhokC0UmaNVrIFUs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 12:52:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user_Id\": 24,\n    \"Email\": \"sampleuser_01@gmail.com\",\n    \"Bio\": \"sample user bio\",\n    \"City\": \"sample city\",\n    \"State\": \"sample state\",\n    \"Country\": \"sample country\",\n    \"Token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjQsImlhdCI6MTY5MzE0MDc2MSwiZXhwIjoxNjk0NDM2NzYxfQ.QxdBigFvghVtcM09euIH4WPJXa2xBA_7Ro_OjtgI8RU\"\n}"
+						}
+					]
+				},
+				{
+					"name": "View_All_user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/user/viewusers/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"viewusers",
+								""
+							]
+						},
+						"description": "#### View User (Without Authentication)\n\n- **Endpoint:** `GET /api/users/viewusers/`\n    \n- **Description:** Retrieves list of all user form database.\n    \n- **Authentication:** No authentication required."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/user/users/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3477"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d95-rHwUVDfdypkUvlci+J8RWTh3BhI\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 15:09:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"user_id\": 3,\n        \"full_name\": \"Michael Johnson\",\n        \"email\": \"michael@example.com\",\n        \"password\": \"123456\",\n        \"bio\": null,\n        \"city\": \"Chicago\",\n        \"state\": \"Illinois\",\n        \"country\": \"United States\",\n        \"created_at\": \"2023-08-15T07:15:00.000Z\"\n    },\n    {\n        \"user_id\": 5,\n        \"full_name\": \"David Lee\",\n        \"email\": \"david@example.com\",\n        \"password\": \"123456\",\n        \"bio\": \"Photographer\",\n        \"city\": \"San Francisco\",\n        \"state\": \"California\",\n        \"country\": \"United States\",\n        \"created_at\": \"2023-08-15T09:40:00.000Z\"\n    },\n    {\n        \"user_id\": 12,\n        \"full_name\": \"Alex Johnson\",\n        \"email\": \"alex@example.com\",\n        \"password\": \"123456\",\n        \"bio\": \"Software Developer\",\n        \"city\": \"Boston\",\n        \"state\": \"Massachusetts\",\n        \"country\": \"United States\",\n        \"created_at\": \"2023-08-16T03:45:00.000Z\"\n    },\n    {\n        \"user_id\": 13,\n        \"full_name\": \"Emma Brown\",\n        \"email\": \"emma@example.com\",\n        \"password\": \"123456\",\n        \"bio\": \"Data Scientist\",\n        \"city\": \"San Diego\",\n        \"state\": \"California\",\n        \"country\": \"United States\",\n        \"created_at\": \"2023-08-16T05:00:00.000Z\"\n    },\n    {\n        \"user_id\": 14,\n        \"full_name\": \"Liam Davis\",\n        \"email\": \"liam@example.com\",\n        \"password\": \"123456\",\n        \"bio\": \"Backend Engineer\",\n        \"city\": \"London\",\n        \"state\": null,\n        \"country\": \"United Kingdom\",\n        \"created_at\": \"2023-08-16T06:15:00.000Z\"\n    },\n    {\n        \"user_id\": 15,\n        \"full_name\": \"Ava Wilson\",\n        \"email\": \"ava@example.com\",\n        \"password\": \"123456\",\n        \"bio\": \"Marketing Specialist\",\n        \"city\": \"Sydney\",\n        \"state\": \"New South Wales\",\n        \"country\": \"Australia\",\n        \"created_at\": \"2023-08-16T07:30:00.000Z\"\n    },\n    {\n        \"user_id\": 16,\n        \"full_name\": \"Noah Garcia\",\n        \"email\": \"noah@example.com\",\n        \"password\": \"123456\",\n        \"bio\": \"UI Designer\",\n        \"city\": \"Mexico City\",\n        \"state\": \"Mexico\",\n        \"country\": \"Mexico\",\n        \"created_at\": \"2023-08-16T08:45:00.000Z\"\n    },\n    {\n        \"user_id\": 17,\n        \"full_name\": \"Mia Smith\",\n        \"email\": \"mia@example.com\",\n        \"password\": \"123456\",\n        \"bio\": \"Product Manager\",\n        \"city\": \"Paris\",\n        \"state\": \"Île-de-France\",\n        \"country\": \"France\",\n        \"created_at\": \"2023-08-16T10:00:00.000Z\"\n    },\n    {\n        \"user_id\": 18,\n        \"full_name\": \"Dhruv\",\n        \"email\": \"Dhruv@Saab.com\",\n        \"password\": \"$2a$10$h1TCovnLZrFKGd1cGtRo8.6kbGxbVc.GlhOdKEb9TGiHwloxWPHKK\",\n        \"bio\": \"Leader\",\n        \"city\": \"USA\",\n        \"state\": \"Harayana\",\n        \"country\": \"INDIA\",\n        \"created_at\": \"2023-08-17T18:05:30.501Z\"\n    },\n    {\n        \"user_id\": 19,\n        \"full_name\": \"Dhruv1\",\n        \"email\": \"Dhruv1@Saab.com\",\n        \"password\": \"$2a$10$FddIAvh3wnW4AQIebofgbuU0j0MsKmQSkdbidPaIA.bzL9Ix4F.Vq\",\n        \"bio\": \"Leader\",\n        \"city\": \"USA\",\n        \"state\": \"Harayana\",\n        \"country\": \"INDIA\",\n        \"created_at\": \"2023-08-17T18:10:58.730Z\"\n    },\n    {\n        \"user_id\": 20,\n        \"full_name\": \"Dhruv12\",\n        \"email\": \"Dhruv12@Saab.com\",\n        \"password\": \"$2a$10$YOIYvx.9SVYdBRMwicQVDOJiW/BgFCbYjcszhIAjim.RQTIiKFXBO\",\n        \"bio\": \"Leader\",\n        \"city\": \"USA\",\n        \"state\": \"Harayana\",\n        \"country\": \"INDIA\",\n        \"created_at\": \"2023-08-18T00:14:08.570Z\"\n    },\n    {\n        \"user_id\": 21,\n        \"full_name\": \"sampleUser1234\",\n        \"email\": \"sampleuser12344@gmail.com\",\n        \"password\": \"$2a$10$o8M.5jh/xrXI7Bsg.p700.4/cBH1endywYNCfKJmdovsgVh7yNrhO\",\n        \"bio\": \"sample user bio\",\n        \"city\": \"sample city\",\n        \"state\": \"sample state\",\n        \"country\": \"sample country\",\n        \"created_at\": \"2023-08-18T00:15:44.594Z\"\n    },\n    {\n        \"user_id\": 2,\n        \"full_name\": \"jane doa\",\n        \"email\": \"jane@kailash.com\",\n        \"password\": \"123456\",\n        \"bio\": \"SDE\",\n        \"city\": \"silicon\",\n        \"state\": \"california\",\n        \"country\": \"USA\",\n        \"created_at\": \"2023-08-15T06:00:00.000Z\"\n    },\n    {\n        \"user_id\": 22,\n        \"full_name\": \"sampleUser009\",\n        \"email\": \"sampleuser009@gmail.com\",\n        \"password\": \"$2a$10$AthdP3JKlD7gWd7l3Mr1aO9xYMNdlog/niQXy/GriIgL8n9ZaSx9y\",\n        \"bio\": \"sample user bio\",\n        \"city\": \"sample city\",\n        \"state\": \"sample state\",\n        \"country\": \"sample country\",\n        \"created_at\": \"2023-08-18T16:53:13.531Z\"\n    },\n    {\n        \"user_id\": 23,\n        \"full_name\": \"sampleUser_01\",\n        \"email\": \"sampleuser_01@gmail.com\",\n        \"password\": \"$2a$10$yZKz3zQyk7118KyCjirZ2e51LGsFQaNWyOTUc7CtUGMV06DfbyfXS\",\n        \"bio\": \"sample user bio\",\n        \"city\": \"sample city\",\n        \"state\": \"sample state\",\n        \"country\": \"sample country\",\n        \"created_at\": \"2023-08-22T15:09:14.113Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Login_user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Email\":\"Dhruv12@Saab.com\",\r\n    \"Password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						},
+						"description": "#### Login User (With Authentication)\n\n- **Endpoint:** `POST /api/users`\n    \n- **Description:** Login registered user with the provided information.\n    \n- **Authentication:** Returns authentication token along with user details.\n    \n- **Request Body:** JSON object containing user details."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Email\":\"sampleuser_01@gmail.com\",\r\n    \"Password\":\"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "240"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f0-zvDgtFmjRbjH5BATEd4W9BFk9Ts\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 15:11:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 23,\n    \"name\": \"sampleUser_01\",\n    \"email\": \"sampleuser_01@gmail.com\",\n    \"bio\": \"sample user bio\",\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjMsImlhdCI6MTY5MjcxNzA4OSwiZXhwIjoxNjk0MDEzMDg5fQ.tRvHtyNgCnjqlWidZtZLCfvcXs5NLHQ3Rc6d9stx1p4\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImlhdCI6MTY5MjM3NjUxOSwiZXhwIjoxNjkzNjcyNTE5fQ.W7zek-mir2YHNVxOUh7a-DO6Fgl2TKNCIlDBRJixLeM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"full_name\": \"jane doa\",\r\n        \"email\": \"jane@kailash.com\",\r\n        \"bio\": \"SDE\",\r\n        \"city\": \"silicon\",\r\n        \"state\": \"california\",\r\n        \"country\": \"USA\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/updateUser/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"updateUser",
+								"3"
+							]
+						},
+						"description": "#### Update User (With Authentication)\n\n- **Endpoint:** `PUT /api/user/updateUser/:userId`\n    \n- **Description:** Updates user information for the specified user ID.\n    \n- **Authentication:** Requires authentication.\n    \n- **Request Body:** JSON object containing updated user details"
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n        \"full_name\": \"jane doa\",\r\n        \"email\": \"jane@kailash.com\",\r\n        \"bio\": \"SDE\",\r\n        \"city\": \"silicon\",\r\n        \"state\": \"california\",\r\n        \"country\": \"USA\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/user/updateUser/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"updateUser",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "189"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"bd-w7TdIdrhDGR214F3pLMFA9inqok\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 15:11:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user_id\": 2,\n    \"full_name\": \"jane doa\",\n    \"email\": \"jane@kailash.com\",\n    \"password\": \"123456\",\n    \"bio\": \"SDE\",\n    \"city\": \"silicon\",\n    \"state\": \"california\",\n    \"country\": \"USA\",\n    \"created_at\": \"2023-08-15T06:00:00.000Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete_user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImlhdCI6MTY5MjM3NjUxOSwiZXhwIjoxNjkzNjcyNTE5fQ.W7zek-mir2YHNVxOUh7a-DO6Fgl2TKNCIlDBRJixLeM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/deleteUser/23",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"deleteUser",
+								"23"
+							]
+						},
+						"description": "#### Delete User (With Authentication)\n\n- **Endpoint:** `DELETE /api/user/updateUser/:userId`\n    \n- **Description:** Deletes the user associated with the provided user ID.\n    \n- **Authentication:** Requires authentication."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/user/deleteUser/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"deleteUser",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "189"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"bd-w7TdIdrhDGR214F3pLMFA9inqok\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 15:13:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user_id\": 2,\n    \"full_name\": \"jane doa\",\n    \"email\": \"jane@kailash.com\",\n    \"password\": \"123456\",\n    \"bio\": \"SDE\",\n    \"city\": \"silicon\",\n    \"state\": \"california\",\n    \"country\": \"USA\",\n    \"created_at\": \"2023-08-15T06:00:00.000Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "getUserbyTechStack",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/user/getUserbyTechStack/stack2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"getUserbyTechStack",
+								"stack2"
+							]
+						},
+						"description": "#### Get All Users where project is built using X Technical Stack (Without Authentication)\n\n- **Endpoint:** `GET /api/users/getUserbyTechStack/:techStack`\n    \n- **Description:** Retrieves a list of all users who have projects using a specific technical stack (e.g., JavaScript) in their portfolio.\n    \n- **Authentication:** No authentication required."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/user/stack2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"stack2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1018"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3fa-cOoyikMaHHOZgWZ/5SyOboyafbE\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Aug 2023 03:32:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"user_id\": 3,\n        \"full_name\": \"Michael Johnson\",\n        \"email\": \"michael@example.com\",\n        \"bio\": null,\n        \"city\": \"Chicago\",\n        \"state\": \"Illinois\",\n        \"country\": \"United States\"\n    },\n    {\n        \"user_id\": 12,\n        \"full_name\": \"Alex Johnson\",\n        \"email\": \"alex@example.com\",\n        \"bio\": \"Software Developer\",\n        \"city\": \"Boston\",\n        \"state\": \"Massachusetts\",\n        \"country\": \"United States\"\n    },\n    {\n        \"user_id\": 15,\n        \"full_name\": \"Ava Wilson\",\n        \"email\": \"ava@example.com\",\n        \"bio\": \"Marketing Specialist\",\n        \"city\": \"Sydney\",\n        \"state\": \"New South Wales\",\n        \"country\": \"Australia\"\n    },\n    {\n        \"user_id\": 16,\n        \"full_name\": \"Noah Garcia\",\n        \"email\": \"noah@example.com\",\n        \"bio\": \"UI Designer\",\n        \"city\": \"Mexico City\",\n        \"state\": \"Mexico\",\n        \"country\": \"Mexico\"\n    },\n    {\n        \"user_id\": 17,\n        \"full_name\": \"Mia Smith\",\n        \"email\": \"mia@example.com\",\n        \"bio\": \"Product Manager\",\n        \"city\": \"Paris\",\n        \"state\": \"Île-de-France\",\n        \"country\": \"France\"\n    },\n    {\n        \"user_id\": 19,\n        \"full_name\": \"Dhruv1\",\n        \"email\": \"Dhruv1@Saab.com\",\n        \"bio\": \"Leader\",\n        \"city\": \"USA\",\n        \"state\": \"Harayana\",\n        \"country\": \"INDIA\"\n    },\n    {\n        \"user_id\": 20,\n        \"full_name\": \"Dhruv12\",\n        \"email\": \"Dhruv12@Saab.com\",\n        \"bio\": \"Leader\",\n        \"city\": \"USA\",\n        \"state\": \"Harayana\",\n        \"country\": \"INDIA\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "View_UserbyId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/user/viewusers/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"viewusers",
+								"3"
+							]
+						},
+						"description": "#### View User (Without Authentication)\n\n- **Endpoint:** `GET /api/users/viewusers/:userId`\n    \n- **Description:** Retrieves user details based on the provided user ID.\n    \n- **Authentication:** No authentication required"
+					},
+					"response": []
+				}
+			],
+			"description": "This sub-directory contains API address for CRUD ops on user."
+		},
+		{
+			"name": "Individual Project API",
+			"item": [
+				{
+					"name": "Get All individual projets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/individual_Project",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"individual_Project"
+							]
+						},
+						"description": "#### View All Projects (Without Authentication)\n\n- **Endpoint:** `GET /api/individual_Projects`\n    \n- **Description:** Retrieves a list of all projects in database.\n    \n- **Authentication:** No authentication required."
+					},
+					"response": [
+						{
+							"name": "Get All individual projets",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/individual_Project",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"individual_Project"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2628"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a44-x6LUl+6dcffiU5+Og69yUrKA5Xs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 16:24:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"project_id\": 4,\n        \"project_title\": \"Sample Project 3\",\n        \"description\": \"Description for Sample Project 3\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 3,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 5,\n        \"project_title\": \"Group Project 1\",\n        \"description\": \"Description for Group sampel project\",\n        \"links\": {\n            \"link1\": \"Groupsampleproject1.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": null,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 6,\n        \"project_title\": \"Sample Project solo 3\",\n        \"description\": \"Description for Sample Project solo 3\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 3,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 7,\n        \"project_title\": \"Sample Project solo 4\",\n        \"description\": \"Description for Sample Project solo 4\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 3,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 8,\n        \"project_title\": \"Language Learning App\",\n        \"description\": \"A web app to learn new languages through interactive exercises.\",\n        \"links\": {\n            \"github\": \"https://github.com/language-app-repo\",\n            \"website\": \"https://language-learning.example.com\"\n        },\n        \"technical_stacks\": [\n            \"Angular\",\n            \"Node.js\",\n            \"MongoDB\"\n        ],\n        \"user_id\": 5,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 9,\n        \"project_title\": \"Sample Project solo 3\",\n        \"description\": \"Description for Sample Project solo 3\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 12,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 10,\n        \"project_title\": \"Sample Project solo 3\",\n        \"description\": \"Description for Sample Project solo 3\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 15,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 11,\n        \"project_title\": \"Sample Project solo 3\",\n        \"description\": \"Description for Sample Project solo 3\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 15,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 12,\n        \"project_title\": \"Sample Project solo 3\",\n        \"description\": \"Description for Sample Project solo 3\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 15,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 13,\n        \"project_title\": \"Sample Project solo 4\",\n        \"description\": \"Description for Sample Project solo 4\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 12,\n        \"project_type\": \"individual\"\n    },\n    {\n        \"project_id\": 15,\n        \"project_title\": \"Sample Project solo 5\",\n        \"description\": \"Description for Sample Project solo 5\",\n        \"links\": {\n            \"link1\": \"sampleproject3.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"user_id\": 3,\n        \"project_type\": \"individual\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get individual project by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/individual_Project/getProjectById/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"individual_Project",
+								"getProjectById",
+								"4"
+							]
+						},
+						"description": "StartFragment\n\n### `GET /projects/:project_id`\n\nGet details of a specific project by its ID.\n\nEndFragment  \n\nresponse : {  \n\"project_id\": 1,  \n\"project_title\": \"Project Title\",  \n\"description\": \"Project Description\",  \n\"links\": \\[\"Link 1\", \"Link 2\"\\],  \n\"technical_stacks\": \\[\"Stack 1\", \"Stack 2\"\\],  \n\"user_id\": 123  \n}\n\nStartFragment\n\n## Errors\n\nIn case of errors, the API will return a JSON response with an error message and an appropriate status code.\n\n- `400 Bad Request`: Invalid request data.\n    \n- `404 Not Found`: The requested project does not exist.\n    \n- `500 Internal Server Error`: An error occurred while processing the reques\n    \n\nEndFragment"
+					},
+					"response": [
+						{
+							"name": "Get individual project by id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/individual_Project/getProjectById/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"individual_Project",
+										"getProjectById",
+										"4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "218"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"da-WhiUYE+2nzPlrVN8hirzdsYe2D0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 16:26:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"project_id\": 4,\n    \"project_title\": \"Sample Project 3\",\n    \"description\": \"Description for Sample Project 3\",\n    \"links\": {\n        \"link1\": \"sampleproject3.com\"\n    },\n    \"technical_stacks\": [\n        \"stack1\",\n        \"stack2\"\n    ],\n    \"user_id\": 3,\n    \"project_type\": \"individual\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create new Individual project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"project_title\": \"Sample Project solo 4\",\r\n  \"description\": \"Description for Sample Project solo 4\",\r\n  \"links\": {\"link1\":\"sampleproject3.com\"},\r\n  \"technical_stacks\": [\"stack1\", \"stack2\"],\r\n  \"user_id\": 14\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/individual_Project/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"individual_Project",
+								""
+							]
+						},
+						"description": "#### Create Group Project (With Authentication)\n\n- **Endpoint:** `POST /api/individual_Projects/`\n    \n- **Description:** Creates a new group project with the provided details.\n    \n- **Authentication:** Requires authentication.\n    \n- **Request Body:** JSON object containing project details."
+					},
+					"response": [
+						{
+							"name": "Create new Individual project",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"project_title\": \"Sample Project solo 5\",\r\n  \"description\": \"Description for Sample Project solo 5\",\r\n  \"links\": {\"link1\":\"sampleproject3.com\"},\r\n  \"technical_stacks\": [\"stack1\", \"stack2\"],\r\n  \"user_id\": 3\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/individual_Project/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"individual_Project",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "229"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e5-cUOojsdHtNrTEifMGqA37ktc3QY\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 04:32:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"project_id\": 15,\n    \"project_title\": \"Sample Project solo 5\",\n    \"description\": \"Description for Sample Project solo 5\",\n    \"links\": {\n        \"link1\": \"sampleproject3.com\"\n    },\n    \"technical_stacks\": [\n        \"stack1\",\n        \"stack2\"\n    ],\n    \"user_id\": 3,\n    \"project_type\": \"individual\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Individual Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "StartFragment\n\n#### Update Project (With Authentication)\n\n- **Endpoint:** `PUT /api/individual_Projects/updateProject/:projectId`\n    \n- **Description:** Updates project information for the specified project ID.\n    \n- **Authentication:** Requires authentication.\n    \n- **Request Body:** JSON object containing updated project details.\n    \n\nEndFragment"
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"project_title\": \"Sample Project 1\",\r\n  \"description\": \"Description for Sample Project 1 updated\",\r\n  \"links\": {\"link2\":\"sample2.com\"},\r\n  \"technical_stacks\": [\"stack3\", \"stack4\"],\r\n  \"user_id\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/individual_Project/updateProject/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"individual_Project",
+										"updateProject",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "219"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"db-kHhQhE8j7vfkue2FZUqyjkZyYjY\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 15:16:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"project_id\": 3,\n    \"project_title\": \"Sample Project 1\",\n    \"description\": \"Description for Sample Project 1 updated\",\n    \"links\": {\n        \"link2\": \"sample2.com\"\n    },\n    \"technical_stacks\": [\n        \"stack3\",\n        \"stack4\"\n    ],\n    \"user_id\": 3,\n    \"project_type\": \"individual\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Individual Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImlhdCI6MTY5MjM3NjUxOSwiZXhwIjoxNjkzNjcyNTE5fQ.W7zek-mir2YHNVxOUh7a-DO6Fgl2TKNCIlDBRJixLeM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/individual_Project/deleteProject/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"individual_Project",
+								"deleteProject",
+								"3"
+							]
+						},
+						"description": "#### Delete Project (With Authentication)\n\n- **Endpoint:** `DELETE /api/individual_Projects/deleteProject/:projectId`\n    \n- **Description:** Deletes the project associated with the provided project ID.\n    \n- **Authentication:** Requires authentication"
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/individual_Project/deleteProject/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"individual_Project",
+										"deleteProject",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "219"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"db-kHhQhE8j7vfkue2FZUqyjkZyYjY\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 15:16:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"project_id\": 3,\n    \"project_title\": \"Sample Project 1\",\n    \"description\": \"Description for Sample Project 1 updated\",\n    \"links\": {\n        \"link2\": \"sample2.com\"\n    },\n    \"technical_stacks\": [\n        \"stack3\",\n        \"stack4\"\n    ],\n    \"user_id\": 3,\n    \"project_type\": \"individual\"\n}"
+						}
+					]
+				}
+			],
+			"description": "## Project Management API\n\nThis API allows you to manage individual projects."
+		},
+		{
+			"name": "Group Project API",
+			"item": [
+				{
+					"name": "Create New Group Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImlhdCI6MTY5MjM3NjUxOSwiZXhwIjoxNjkzNjcyNTE5fQ.W7zek-mir2YHNVxOUh7a-DO6Fgl2TKNCIlDBRJixLeM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n    \"project_title\": \"sampel Group project _001\",\r\n  \"description\": \"Description for Group sampel project\",\r\n  \"links\": {\"link1\":\"Groupsampleproject1.com\"},\r\n  \"technical_stacks\": [\"stack1\", \"stack2\"],\r\n    \"users\": [21,22,24] // User IDs to add to the project\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/group_Project/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"group_Project",
+								""
+							]
+						},
+						"description": "#### Create Group Project (With Authentication)\n\n- **Endpoint:** `POST /api/group_projects`\n- **Description:** Creates a new group project with the provided details.\n- **Authentication:** Requires authentication.\n- **Request Body:** JSON object containing project details."
+					},
+					"response": [
+						{
+							"name": "Create New Group Project",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n{\r\n    \"project_title\": \"sampel Group project _001\",\r\n  \"description\": \"Description for Group sampel project\",\r\n  \"links\": {\"link1\":\"Groupsampleproject1.com\"},\r\n  \"technical_stacks\": [\"stack1\", \"stack2\"],\r\n    \"users\": [21,22,24] // User IDs to add to the project\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/group_Project/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"group_Project",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "71"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47-pPt3ZSexTyhjQEihYKUzeShoQSM\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 19:04:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Group project created and users added\",\n    \"groupProjectId\": 12\n}"
+						}
+					]
+				},
+				{
+					"name": "View All Group Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/group_Project/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"group_Project",
+								""
+							]
+						},
+						"description": "StartFragment\n\n#### View All Projects (Without Authentication)\n\n- **Endpoint:** `GET /api/group_projects`\n    \n- **Description:** Retrieves a list of all projects.\n    \n- **Authentication:** No authentication required.\n    \n\nEndFragment"
+					},
+					"response": [
+						{
+							"name": "Get All Group Project",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/group_Project/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"group_Project",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "904"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"388-b/yRA4KWZTT1b2Lduai1loBb6m4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 18:59:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"group_project_id\": 4,\n        \"project_title\": \"Dummy group project\",\n        \"description\": \"Description for Group sampel project\",\n        \"links\": {\n            \"link1\": \"Groupsampleproject1.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"project_type\": \"group\"\n    },\n    {\n        \"group_project_id\": 8,\n        \"project_title\": \"Group edge case Project 1\",\n        \"description\": \"Description for Group sampel project\",\n        \"links\": {\n            \"link1\": \"Groupsampleproject1.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"project_type\": \"group\"\n    },\n    {\n        \"group_project_id\": 11,\n        \"project_title\": \"Group edge case 2 Project 1\",\n        \"description\": \"Description for Group sampel project\",\n        \"links\": {\n            \"link1\": \"Groupsampleproject1.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"project_type\": \"group\"\n    },\n    {\n        \"group_project_id\": 1,\n        \"project_title\": \"Sample group Project 1 update\",\n        \"description\": \"Description for group Sample Project 1 updated\",\n        \"links\": {\n            \"link2\": \"sample2.com\"\n        },\n        \"technical_stacks\": [\n            \"stack3\",\n            \"stack4\"\n        ],\n        \"project_type\": \"group\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "view project by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/group_Project/viewprojectbyName?project_name=group project",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"group_Project",
+								"viewprojectbyName"
+							],
+							"query": [
+								{
+									"key": "project_name",
+									"value": "group project"
+								}
+							]
+						},
+						"description": "#### Search Project by name (Without Authentication)\n\n- **Endpoint:** `GET /api/group_projects/viewprojectbyName`\n    \n- **Description:** view projects by matching project name (including single character matches).  \n      \n    \n- **Authentication:** No authentication required."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/group_Project/viewprojectbyName?project_name=s",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"group_Project",
+										"viewprojectbyName"
+									],
+									"query": [
+										{
+											"key": "project_name",
+											"value": "s"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "684"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2ac-TWcWSEEJ6lMWdVInfrsFzIn9DVY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 17:36:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"group_project_id\": 1,\n        \"project_title\": \"Sample group Project 1 update\",\n        \"description\": \"Description for group Sample Project 1 updated\",\n        \"links\": {\n            \"link2\": \"sample2.com\"\n        },\n        \"technical_stacks\": [\n            \"stack3\",\n            \"stack4\"\n        ],\n        \"project_type\": \"group\"\n    },\n    {\n        \"group_project_id\": 8,\n        \"project_title\": \"Group edge case Project 1\",\n        \"description\": \"Description for Group sampel project\",\n        \"links\": {\n            \"link1\": \"Groupsampleproject1.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"project_type\": \"group\"\n    },\n    {\n        \"group_project_id\": 11,\n        \"project_title\": \"Group edge case 2 Project 1\",\n        \"description\": \"Description for Group sampel project\",\n        \"links\": {\n            \"link1\": \"Groupsampleproject1.com\"\n        },\n        \"technical_stacks\": [\n            \"stack1\",\n            \"stack2\"\n        ],\n        \"project_type\": \"group\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Update group project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImlhdCI6MTY5MjM3NjUxOSwiZXhwIjoxNjkzNjcyNTE5fQ.W7zek-mir2YHNVxOUh7a-DO6Fgl2TKNCIlDBRJixLeM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"project_title\": \"Sample group Project 1 update\",\r\n  \"description\": \"Description for group Sample Project 1 updated\",\r\n  \"links\": {\"link2\":\"sample2.com\"},\r\n  \"technical_stacks\": [\"stack3\", \"stack4\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/group_Project/updateProject/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"group_Project",
+								"updateProject",
+								"1"
+							]
+						},
+						"description": "StartFragment\n\n#### Update Project (With Authentication)\n\n- **Endpoint:** `PUT /api/group_projects/updateProject/:projectId`\n    \n- **Description:** Updates project information for the specified project ID.\n    \n- **Authentication:** Requires authentication.\n    \n- **Request Body:** JSON object containing updated project details.\n    \n\nEndFragment"
+					},
+					"response": [
+						{
+							"name": "Update group project",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"project_title\": \"Sample group Project 1 update\",\r\n  \"description\": \"Description for group Sample Project 1 updated\",\r\n  \"links\": {\"link2\":\"sample2.com\"},\r\n  \"technical_stacks\": [\"stack3\", \"stack4\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/group_Project/updateProject/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"group_Project",
+										"updateProject",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "227"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e3-e9yQjNTWgaNuBlAHDXPq0j847Fs\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 18:39:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"group_project_id\": 1,\n    \"project_title\": \"Sample group Project 1 update\",\n    \"description\": \"Description for group Sample Project 1 updated\",\n    \"links\": {\n        \"link2\": \"sample2.com\"\n    },\n    \"technical_stacks\": [\n        \"stack3\",\n        \"stack4\"\n    ],\n    \"project_type\": \"group\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete group Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTgsImlhdCI6MTY5MjM3NjUxOSwiZXhwIjoxNjkzNjcyNTE5fQ.W7zek-mir2YHNVxOUh7a-DO6Fgl2TKNCIlDBRJixLeM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/group_Project/deleteProject/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"group_Project",
+								"deleteProject",
+								"1"
+							]
+						},
+						"description": "StartFragment\n\n#### Delete Project (With Authentication)\n\n- **Endpoint:** `DELETE /api/group_projects/deleteProject/:projectId`\n    \n- **Description:** Deletes the project associated with the provided project ID.\n    \n- **Authentication:** Requires authentication.\n    \n\nEndFragment"
+					},
+					"response": [
+						{
+							"name": "Delete group Project",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/group_Project/deleteProject/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"group_Project",
+										"deleteProject",
+										"1"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "104"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"68-wus9xQ3mmbW6+PNIkV2z3yYaF7k\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 19:01:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"This Group project is have active members working on it, kindly first remove all the members\"\n}"
+						}
+					]
+				},
+				{
+					"name": "getProjectbyTeckStack",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "StartFragment\n\n#### Get all Projects using X Technical Stack (Without Authentication)\n\n- **Endpoint:** `GET /api/group_projects/viewProjectbytechstack/:techStack`\n    \n- **Description:** Retrieves a list of all projects that use a specific technical stack (e.g., JavaScript).\n    \n- **Authentication:** No authentication required.\n    \n\nEndFragment"
+					},
+					"response": [
+						{
+							"name": "getProjectbyTeckStack",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/group_Project/viewProjectbytechstack/stack4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"group_Project",
+										"viewProjectbytechstack",
+										"stack4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "431"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1af-ekXoL1sJdMQRaLPnT2fUN9/VUFc\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 27 Aug 2023 18:43:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"project_id\": 1,\n        \"project_title\": \"Sample group Project 1 update\",\n        \"description\": \"Description for group Sample Project 1 updated\",\n        \"links\": {\n            \"link2\": \"sample2.com\"\n        },\n        \"technical_stacks\": [\n            \"stack3\",\n            \"stack4\"\n        ],\n        \"project_type\": \"group\"\n    },\n    {\n        \"project_id\": 4,\n        \"project_title\": \"Sample Project 4\",\n        \"description\": \"Description for Sample Project 1 updated\",\n        \"links\": {\n            \"link2\": \"sample2.com\"\n        },\n        \"technical_stacks\": [\n            \"stack3\",\n            \"stack4\"\n        ],\n        \"project_type\": \"individual\"\n    }\n]"
+						}
+					]
+				}
+			],
+			"description": "StartFragment\n\n### Group Project Operations\n\n#### Create Group Project (With Authentication)\n\n- **Endpoint:** `POST /api/group_projects`\n    \n- **Description:** Creates a new group project with the provided details.\n    \n- **Authentication:** Requires authentication.\n    \n- **Request Body:** JSON object containing project details.\n        \n\n#### Update Project (With Authentication)\n\n- **Endpoint:** `PUT /api/group_projects/updateProject/:projectId`\n    \n- **Description:** Updates project information for the specified project ID.\n    \n- **Authentication:** Requires authentication.\n    \n- **Request Body:** JSON object containing updated project details.\n    \n\n#### Delete Project (With Authentication)\n\n- **Endpoint:** `DELETE /api/group_projects/deleteProject/:projectId`\n    \n- **Description:** Deletes the project associated with the provided project ID.\n    \n- **Authentication:** Requires authentication.\n    \n\n#### View All Projects (Without Authentication)\n\n- **Endpoint:** `GET /api/group_projects`\n    \n- **Description:** Retrieves a list of all projects.\n    \n- **Authentication:** No authentication required.\n    \n\n#### Get all Projects using X Technical Stack (Without Authentication)\n\n- **Endpoint:** `GET /api/group_projects/viewProjectbytechstack/:techStack`\n    \n- **Description:** Retrieves a list of all projects that use a specific technical stack (e.g., JavaScript).\n    \n- **Authentication:** No authentication required.\n \n    \n\nEndFragment"
+		}
+	]
+}
