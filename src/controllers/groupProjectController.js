@@ -1,48 +1,15 @@
 const pool = require("../config/dbConfig");
 
-
-// ------------------view project by techstack--------------------------------
-
-
-const getProjectbyTeckStack = async (req, res) => {
-  const techStack = req.params.techStack;
-
-  try {
-    const query = `
-      SELECT project_id, project_title, description, links, technical_stacks, project_type
-      FROM individual_projects
-      WHERE $1 = ANY (technical_stacks)
-
-      UNION
-
-      SELECT group_project_id AS project_id, project_title, description, links, technical_stacks, project_type
-      FROM group_projects
-      WHERE $1 = ANY (technical_stacks);
-    `;
-
-    const { rows } = await pool.query(query, [techStack]);
-
-    res.json(rows);
-  } catch (error) {
-    console.error("Error fetching projects:", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while fetching projects." });
-  }
-};
-
-
 //======================create new group project================================
 async function userExistsInIndividualProjects(userId) {
   try {
-     const checkUserQuery =
-       "SELECT * FROM individual_projects WHERE user_id = $1";
-     const result = await pool.query(checkUserQuery, [userId]);
-     return result.rows.length > 0 ? result.rows[0] : null;
+    const checkUserQuery =
+      "SELECT * FROM individual_projects WHERE user_id = $1";
+    const result = await pool.query(checkUserQuery, [userId]);
+    return result.rows.length > 0 ? result.rows[0] : null;
   } catch (error) {
-    
+    console.log(error);
   }
- 
 }
 
 async function userExistsInGroupProjects(userId) {
@@ -116,12 +83,10 @@ async function createGroup(req, res) {
         usersInIndividualProjects.push(userExists);
       } else {
         const isParticipating = await userExistsInGroupProjects(userId);
-        console.log('line168 grp con', isParticipating)
         if (isParticipating) {
           usersInGrouprojects.push(isParticipating);
         } else {
-          addUsertoGroup.push(userId)
-          console.log('line174',addUsertoGroup)
+          addUsertoGroup.push(userId);
         }
       }
     }
@@ -145,8 +110,6 @@ async function createGroup(req, res) {
         groupProjectValues
       );
       const groupProjectId = groupProjectResult.rows[0].group_project_id;
-      console.log("line198 grp con", groupProjectId);
-      console.log("line199 grp con", usersInGrouprojects);
       const participantsQuery =
         "INSERT INTO user_group_project (group_project_id, user_id) VALUES ($1, $2)";
       try {
@@ -156,7 +119,6 @@ async function createGroup(req, res) {
               groupProjectId,
               values,
             ]);
-            // console.log("line192 result", result.rows[0]);
           })
         ).then(() => {
           res.status(201).json({
@@ -167,11 +129,6 @@ async function createGroup(req, res) {
       } catch (error) {
         console.log(error);
       }
-
-      // res.status(201).json({
-      //   message: "Group project created and users added",
-      //   groupProjectId: groupProjectId,
-      // });
     }
   } catch (error) {
     console.error(error);
@@ -179,14 +136,12 @@ async function createGroup(req, res) {
   }
 }
 
-
 //-----------------------------------------------
 
-// Update a project
+// -----------------------Update project----------------------------------
 const updateProject = async (req, res) => {
   try {
-    const { project_title, description, links, technical_stacks} =
-      req.body;
+    const { project_title, description, links, technical_stacks } = req.body;
     const { project_id } = req.params;
     console.log(project_id);
     const query = `UPDATE group_projects
@@ -209,7 +164,7 @@ const updateProject = async (req, res) => {
   }
 };
 
-// Delete a project
+//----------------------- Delete project--------------------------------------
 const deleteProject = async (req, res) => {
   try {
     const { project_id } = req.params;
@@ -220,13 +175,13 @@ const deleteProject = async (req, res) => {
     res.json(result.rows[0]);
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ error: `This Group project is have active members working on it, kindly first remove all the members` });
+    res.status(500).json({
+      error: `This Group project is have active members working on it, kindly first remove all the members`,
+    });
   }
 };
 
-// View all projects
+// -----------------------View all projects--------------------------------------
 const getAllProjects = async (req, res) => {
   try {
     const query = "SELECT * FROM group_projects";
@@ -240,13 +195,13 @@ const getAllProjects = async (req, res) => {
   }
 };
 
-// View projects by matching project name (including single character matches)
+// -----------View projects by matching project name (including single character matches)----------
 const getProjectsByPartialName = async (req, res) => {
   try {
     const { project_name } = req.query;
     const query = "SELECT * FROM group_projects WHERE project_title ILIKE ($1)";
     const values = [`%${project_name}%`];
-    console.log('line 116 creategroup controller',values)
+    console.log("line 116 creategroup controller", values);
     const result = await pool.query(query, values);
     if (result.rows.length === 0) {
       res.status(404).json({ error: "No projects found." });
@@ -260,11 +215,40 @@ const getProjectsByPartialName = async (req, res) => {
       .json({ error: "An error occurred while fetching the projects." });
   }
 };
+
+// ------------------view project by techstack--------------------------------
+
+const getProjectbyTeckStack = async (req, res) => {
+  const techStack = req.params.techStack;
+
+  try {
+    const query = `
+      SELECT project_id, project_title, description, links, technical_stacks, project_type
+      FROM individual_projects
+      WHERE $1 = ANY (technical_stacks)
+
+      UNION
+
+      SELECT group_project_id AS project_id, project_title, description, links, technical_stacks, project_type
+      FROM group_projects
+      WHERE $1 = ANY (technical_stacks);
+    `;
+
+    const { rows } = await pool.query(query, [techStack]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching projects." });
+  }
+};
 module.exports = {
   createGroup,
   updateProject,
   deleteProject,
   getAllProjects,
   getProjectsByPartialName,
-  getProjectbyTeckStack
+  getProjectbyTeckStack,
 };
