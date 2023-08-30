@@ -90,4 +90,3 @@ This project is licensed under the [ISC License](LICENSE).
 
 ---
 
-Feel free to customize this README template according to your project's specific details and needs.
