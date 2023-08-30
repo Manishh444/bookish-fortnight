@@ -1,55 +1,5 @@
 const pool = require("../config/dbConfig");
 
-// Create a new group project and add users to it
-// async function createeGroup(req, res) {
-//   try {
-//     // const { project_name, project_description } = req.body;
-//     const { project_title, description, links, technical_stacks, users } =
-//       req.body;
-
-//     // Insert into group_projects table
-//     const createGroupprojectQuery =
-//       "INSERT INTO group_projects (project_title, description, links, technical_stacks) VALUES ($1, $2, $3, $4) RETURNING *";
-//     const GroupprojectValues = [
-//       project_title,
-//       description,
-//       links,
-//       technical_stacks,
-//     ];
-
-//     const GroupprojectResult = await pool.query(
-//       createGroupprojectQuery,
-//       GroupprojectValues
-//     );
-//     const GroupprojectId = GroupprojectResult.rows[0].group_project_id;
-
-//     // Insert into project_participants table for each user
-//     const participantsQuery =
-//       "INSERT INTO user_group_project (group_project_id, user_id) VALUES ($1, $2)";
-
-//     const GroupparticipantsValues = users.map((userId) => [
-//       GroupprojectId,
-//       userId,
-//     ]);
-//     console.log("line 48 groupController", GroupparticipantsValues);
-//     await Promise.all(
-//       GroupparticipantsValues.map((values) =>
-//         pool.query(participantsQuery, values)
-//       )
-//     );
-
-//     res.status(201).json({
-//       message: "Group project created and users added",
-//       GroupprojectId: GroupprojectId,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "An error occurred" });
-//   }
-// }
-//-----------------------------------------------
-
-
 
 // ------------------view project by techstack--------------------------------
 
@@ -95,15 +45,16 @@ async function userExistsInIndividualProjects(userId) {
  
 }
 
-async function userParticipatingInGroupProject(userId) {
- try {
-   const checkUserQuery = `SELECT users.*, user_group_project.group_project_id
+async function userExistsInGroupProjects(userId) {
+  try {
+    const checkUserQuery = `SELECT users.*, user_group_project.group_project_id
     FROM users
     RIGHT JOIN user_group_project ON users.user_id = user_group_project.user_id
     WHERE users.user_id = $1;`;
-   const result = await pool.query(checkUserQuery, [userId]);
-   return result.rows.length > 0 ? result.rows[0] : null;
- } catch (error) {}
+    const result = await pool.query(checkUserQuery, [userId]);
+    console.log("line105", result.rows[0]);
+    return result.rows.length > 0 ? result.rows[0] : null;
+  } catch (error) {}
 }
 
 async function createGroup(req, res) {
@@ -116,7 +67,7 @@ async function createGroup(req, res) {
       SELECT EXISTS (
         SELECT 1
         FROM information_schema.tables
-        WHERE table_name = 'group_projects'
+        WHERE table_name = 'group_projects' 
       ) as table_exists;
     `;
 
@@ -126,6 +77,7 @@ async function createGroup(req, res) {
     // If the table doesn't exist, create it
     if (!tableExists) {
       const createTableQuery = `
+      BEGIN;
        CREATE TABLE group_projects (
           group_project_id SERIAL PRIMARY KEY,
           project_title VARCHAR(255) NOT null unique,
@@ -134,6 +86,12 @@ async function createGroup(req, res) {
           technical_stacks TEXT[],
           project_type VARCHAR(20) NOT NULL DEFAULT 'group'
         );
+        CREATE TABLE user_group_project (
+          user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
+          group_project_id INT REFERENCES group_projects(group_project_id),
+          PRIMARY KEY (user_id, group_project_id)
+        );
+        COMMIT;
       `;
       await pool.query(createTableQuery);
     }
@@ -149,16 +107,21 @@ async function createGroup(req, res) {
     ];
 
     const usersInIndividualProjects = [];
-    const usersToAddToGroup = [];
+    const usersInGrouprojects = [];
+    const addUsertoGroup = [];
 
     for (const userId of users) {
       const userExists = await userExistsInIndividualProjects(userId);
       if (userExists) {
         usersInIndividualProjects.push(userExists);
       } else {
-        const isParticipating = await userParticipatingInGroupProject(userId);
+        const isParticipating = await userExistsInGroupProjects(userId);
+        console.log('line168 grp con', isParticipating)
         if (isParticipating) {
-          usersToAddToGroup.push(isParticipating);
+          usersInGrouprojects.push(isParticipating);
+        } else {
+          addUsertoGroup.push(userId)
+          console.log('line174',addUsertoGroup)
         }
       }
     }
@@ -170,10 +133,10 @@ async function createGroup(req, res) {
         usersInIndividualProjects: usersInIndividualProjects,
       });
     }
-    if (usersToAddToGroup.length > 0) {
+    if (usersInGrouprojects.length > 0) {
       res.status(200).json({
         message: "Users found in group projects",
-        usersInGroupProjects: usersToAddToGroup,
+        usersInGroupProjects: usersInGrouprojects,
       });
     } else {
       // Insert users into group if they do not exist in individual_projects
@@ -182,19 +145,33 @@ async function createGroup(req, res) {
         groupProjectValues
       );
       const groupProjectId = groupProjectResult.rows[0].group_project_id;
+      console.log("line198 grp con", groupProjectId);
+      console.log("line199 grp con", usersInGrouprojects);
       const participantsQuery =
         "INSERT INTO user_group_project (group_project_id, user_id) VALUES ($1, $2)";
+      try {
+        await Promise.all(
+          addUsertoGroup.map((values) => {
+            const result = pool.query(participantsQuery, [
+              groupProjectId,
+              values,
+            ]);
+            // console.log("line192 result", result.rows[0]);
+          })
+        ).then(() => {
+          res.status(201).json({
+            message: "Group project created and users add",
+            groupProjectId: groupProjectId,
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
 
-      await Promise.all(
-        usersToAddToGroup.map((values) =>
-          pool.query(participantsQuery, [groupProjectId, values])
-        )
-      );
-
-      res.status(201).json({
-        message: "Group project created and users added",
-        groupProjectId: groupProjectId,
-      });
+      // res.status(201).json({
+      //   message: "Group project created and users added",
+      //   groupProjectId: groupProjectId,
+      // });
     }
   } catch (error) {
     console.error(error);
